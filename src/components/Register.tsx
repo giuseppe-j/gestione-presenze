@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, ThemeProvider, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
 
-export default function SignUp() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,7 +39,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {Constants.SIGN_UP}
+            {Constants.REGISTER}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -104,11 +104,11 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {Constants.SIGN_UP}
+              {Constants.REGISTER}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/sign-in" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

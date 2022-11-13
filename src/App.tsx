@@ -4,8 +4,9 @@ import {
   Routes,
 } from "react-router-dom";
 import './App.css'
-import SignIn from './components/SignIn'
-import SignUp from "./components/SignUp";
+import ForgotPassword from "./components/ForgotPassword";
+import Login from './components/Login'
+import Register from "./components/Register";
 
 const App = ()  => {
 
@@ -13,9 +14,10 @@ const App = ()  => {
     <div className="App">
     <BrowserRouter>
       <Routes>
-        <Route path="/sign-up" element={<SignUp /> }/>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/" element={<SignIn />} />
+        <Route path="/register" element={<Register /> }/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/" element={<Login />} />
       </Routes>
     </BrowserRouter>
     </div>
