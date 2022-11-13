@@ -5,7 +5,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
 
-export default function SignIn() {
+export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -39,7 +39,7 @@ export default function SignIn() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              {Constants.SIGN_IN}
+              {Constants.LOGIN}
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
@@ -80,16 +80,16 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {Constants.SIGN_IN}
+                {Constants.LOGIN}
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/forgot-password" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/sign-up" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
