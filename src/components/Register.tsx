@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
+import  { useNavigate } from 'react-router-dom'
 import { Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
+import { Auth } from 'aws-amplify';
 
 export default function Register() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const username = data.get('email') as string;
+    const password = data.get('password') as string;
+    const name = data.get('firstName') as string;
+    const familyName = data.get('lastName') as string;
+    Auth.signUp({
+      username,
+      password,
+      attributes: {
+        name: name,
+        family_name: familyName,
+      }
+    }).then((user) => {
+      localStorage.setItem('user', JSON.stringify(user))
+      navigate('/confirm')
+    })
   };
 
   const handleClickShowPassword = () => {
