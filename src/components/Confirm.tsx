@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
 import { Auth } from 'aws-amplify';
 
 export default function Confirm() {
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -13,7 +14,11 @@ export default function Confirm() {
         const { user } = JSON.parse(localStorage.getItem("user") || '');
         const username = user.username;
         const code = data.get('code') as string;
-        Auth.confirmSignUp(username, code).then(() => navigate('/login'));
+        Auth.confirmSignUp(username, code)
+            .then(() => navigate('/login'))
+            .catch((error: Error) => {
+                setError(error.message);
+            });
     };
 
     return (
@@ -42,6 +47,7 @@ export default function Confirm() {
                         label="Verification code"
                         autoFocus
                     />
+                    {error && <Alert severity="error" sx={{ mt: 3 }}>{error}</Alert>}
                     <Button
                         type="submit"
                         fullWidth
