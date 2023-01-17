@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gestionepresenze-dev-230412-authRole",
+      "UnauthRoleArn": "arn:aws:iam::609196413800:role/amplify-gestionepresenze-dev-230412-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::609196413800:role/amplify-gestionepresenze-dev-230412-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-gestionepresenze-dev-230412-deployment",
+      "UnauthRoleName": "amplify-gestionepresenze-dev-230412-unauthRole",
+      "StackName": "amplify-gestionepresenze-dev-230412",
+      "StackId": "arn:aws:cloudformation:eu-central-1:609196413800:stack/amplify-gestionepresenze-dev-230412/efe618b0-678c-11ed-a825-0a5433b3777c",
+      "AmplifyAppId": "d1syk41fksuiah"
+    },
+    "categories": {
+      "auth": {
+        "gestionepresenze": {}
+      }
+    }
+  }
+}
