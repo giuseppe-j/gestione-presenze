@@ -11,14 +11,10 @@ import Register from "./components/Register";
 import Confirm from "./components/Confirm";
 import ForgotPasswordSubmit from "./components/ForgotPasswordSubmit";
 
-import { Amplify } from 'aws-amplify';
-
-/** Amplify config */
-import awsconfig from './aws-exports';
 import Home from "./components/Home";
-
-/** Configure amplify */
-Amplify.configure(awsconfig);
+import Timesheet from './components/Timesheet';
+import Calendar from './components/Calendar';
+import TimeTracker from './components/TimeTracker';
 
 const App = () => {
   return (
@@ -30,7 +26,11 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/forgot-password-submit" element={<ForgotPasswordSubmit />} />
           <Route path="/confirm" element={<Confirm />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home />} >
+            <Route path="timesheet" element={<Timesheet />} />
+            <Route path="time-tracker" element={<TimeTracker />} />
+            <Route path="calendar" element={<Calendar />} />
+          </Route>
           <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>

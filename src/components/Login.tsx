@@ -8,8 +8,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
-import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
+import { login, supabase } from '../supabaseClient';
 interface IFormInputs {
   email: string,
   password: string,
@@ -54,14 +54,16 @@ export default function Login() {
     return () => clearTimeout(navigateToHome)
   }, [logged])
 
-  const onSubmit = (data: IFormInputs) => {
-    Auth.signIn(data.email, data.password).then((user) => {
-      setCookie('user', JSON.stringify(user.attributes), { path: '/' });
+  const onSubmit = async (formData: IFormInputs) => {
+    const { email, password } = formData;
+    const { data, error } = await login(email, password);
+    if (error) {
+      setError(error.message);
+    } else {
+      setCookie('user', JSON.stringify(data.user), { path: '/' });
       setToast({ ...toast, open: true });
       setLogged(true);
-    }).catch((error: Error) => {
-      setError(error.message);
-    });
+    }
   }
 
   const handleClickShowPassword = () => {

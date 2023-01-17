@@ -8,20 +8,16 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
-import { Auth } from 'aws-amplify';
+import { registerUser } from '../supabaseClient';
 
 interface IFormInputs {
-  firstName: string,
-  lastName: string,
   email: string,
   password: string,
 };
 
 const schema = yup.object({
-  firstName: yup.string().required('First Name is required'),
-  lastName: yup.string().required('Last Name is required'),
   email: yup.string().required('Email is required').email('Email not valid'),
-  password: yup.string().required('Password is required').min(8, 'Password should have minimum 8 characters'),
+  password: yup.string().required('Password is required').min(8, 'Password should have minimum 6 characters'),
 })
 
 export default function Register() {
@@ -31,20 +27,16 @@ export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
-  const onSubmit = (data: IFormInputs) => {
-    Auth.signUp({
-      username: data.email,
-      password: data.password,
-      attributes: {
-        name: data.firstName,
-        family_name: data.password,
-      }
-    }).then((user) => {
-      localStorage.setItem('user', JSON.stringify(user))
-      navigate('/confirm')
-    }).catch((error: Error) => {
+  const onSubmit = async (formData: IFormInputs) => {
+    const { email, password } = formData;
+    const options = { username: email }
+    const { data, error } = await registerUser(email, password, options);
+    if (error) {
       setError(error.message);
-    });
+    } else {
+      console.log(data);
+      navigate('/login')
+    }
   }
 
   const handleClickShowPassword = () => {
@@ -74,31 +66,6 @@ export default function Register() {
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={!!errors.firstName}
-                autoComplete="first-name"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                helperText={errors.firstName?.message}
-                {...register("firstName")}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                error={!!errors.lastName}
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                autoComplete="last-name"
-                helperText={errors.lastName?.message}
-                {...register("lastName")}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 error={!!errors.email}

@@ -8,7 +8,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
-import { Auth } from 'aws-amplify';
+import { supabase, updateUser } from '../supabaseClient';
 
 interface IFormInputs {
     email: string,
@@ -17,9 +17,7 @@ interface IFormInputs {
 };
 
 const schema = yup.object({
-    email: yup.string().required('Email is required').email('Email not valid'),
     password: yup.string().required('Password is required').min(8, 'Password should have minimum 8 characters'),
-    code: yup.string().required('Code is required')
 })
 
 export default function ForgotPasswordSubmit() {
@@ -29,13 +27,14 @@ export default function ForgotPasswordSubmit() {
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
         resolver: yupResolver(schema)
     });
-    const onSubmit = (data: IFormInputs) => {
-        Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-            .then(data => console.log(data))
-            .then(() => navigate('/login'))
-            .catch((error: Error) => {
-                setError(error.message);
-            });
+    const onSubmit = async (formData: IFormInputs) => {
+        const { password } = formData;
+        const { data, error } = await updateUser(password);
+        if (error) {
+            setError(error.message);
+        } else {
+            navigate('/login');
+        }
     }
 
     const handleClickShowPassword = () => {
@@ -66,17 +65,6 @@ export default function ForgotPasswordSubmit() {
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                     <TextField
                         margin="normal"
-                        error={!!errors.email}
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        autoComplete="email"
-                        helperText={errors.email?.message}
-                        {...register("email")}
-                    />
-                    <TextField
-                        margin="normal"
                         error={!!errors.password}
                         required
                         fullWidth
@@ -99,17 +87,6 @@ export default function ForgotPasswordSubmit() {
                             ),
                         }}
                     />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="code"
-                        label="Verification code"
-                        autoFocus
-                        helperText={errors.code?.message}
-                        {...register("code")}
-                    />
-                    {error && <Alert severity="error" sx={{ mt: 3 }}>{error}</Alert>}
                     <Button
                         type="submit"
                         fullWidth

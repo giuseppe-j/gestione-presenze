@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Alert, Avatar, Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import * as Constants from "../shared/constants";
-import { Auth } from 'aws-amplify';
+import { forgotPassword } from '../supabaseClient';
 
 interface IFormInputs {
   email: string,
@@ -22,12 +22,14 @@ export default function ForgotPassword() {
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   });
-  const onSubmit = (data: IFormInputs) => {
-    Auth.forgotPassword(data.email)
-      .then(() => navigate('/forgot-password-submit'))
-      .catch((error: Error) => {
-        setError(error.message);
-      });
+  const onSubmit = async (formData: IFormInputs) => {
+    const { email } = formData;
+    const { data, error } = await forgotPassword(email);
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/forgot-password-submit');
+    }
   }
   return (
     <Container component="main" maxWidth="xs">
