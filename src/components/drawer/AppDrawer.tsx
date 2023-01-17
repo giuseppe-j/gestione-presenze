@@ -1,7 +1,7 @@
 import MuiDrawer from '@mui/material/Drawer';
 import { CSSObject, styled, Theme } from '@mui/material/styles';
 
-import { DRAWER_WIDTH } from '../shared/constants';
+import { DRAWER_WIDTH } from '../../shared/constants';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -24,7 +24,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+export const AppDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: DRAWER_WIDTH,
     flexShrink: 0,

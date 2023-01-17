@@ -1,104 +1,37 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { styled, useTheme } from '@mui/material/styles';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import logo from '../assets/logo.png';
 import { AppBar } from './AppBar';
 import { AppList } from './AppList';
-import { Drawer } from './Drawer';
-
-const settings = ['Profile Settings', 'Dark Theme', 'Logout'];
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+import { AppToolbar } from './AppToolbar';
+import { AppDrawer, AppDrawerHeader } from './drawer';
 
 export default function Home() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() => setOpen(true)}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box component="img" sx={{ maxWidth: 100 }} alt="Logo" src={logo} />
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Giuseppe" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
+        <AppToolbar open={open} setOpen={setOpen} />
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <AppDrawer variant="permanent" open={open}>
+        <AppDrawerHeader>
           <IconButton onClick={() => setOpen(false)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-        </DrawerHeader>
+        </AppDrawerHeader>
         <Divider />
         <AppList open={open} />
         <Divider />
-      </Drawer>
+      </AppDrawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+        <AppDrawerHeader />
         <Outlet />
       </Box>
     </Box>
