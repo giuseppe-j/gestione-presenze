@@ -1,0 +1,6 @@
+frontend/src/pages/design/atoms.tsx
+frontend/src/pages/design/components.tsx
+frontend/src/pages/design/pdp.tsx
+frontend/src/pages/design/desktop-components.tsx
+frontend/src/pages/design/desktop-pdp.tsx
+frontend/src/pages/design/desktop-page.tsx
