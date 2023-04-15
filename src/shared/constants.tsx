@@ -1,3 +1,4 @@
+export const ADD = 'Add';
 export const LOGIN = 'Login';
 export const CONFIRM = 'Confirm';
 export const REGISTER = 'Register';
