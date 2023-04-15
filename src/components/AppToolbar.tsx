@@ -43,7 +43,7 @@ export const AppToolbar: React.FC<IProps> = ({ open, setOpen }) => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Giuseppe" src="/static/images/avatar/2.jpg" />
+            <Avatar alt="Giuseppe" src="" />
           </IconButton>
         </Tooltip>
         <Menu

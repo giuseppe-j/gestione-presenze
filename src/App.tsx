@@ -14,7 +14,7 @@ import ForgotPasswordSubmit from "./components/ForgotPasswordSubmit";
 import Home from "./components/Home";
 import Timesheet from './components/Timesheet';
 import Calendar from './components/Calendar';
-import TimeTracker from './components/TimeTracker';
+import TimeTracker from './components/timeTracker/TimeTracker';
 
 const App = () => {
   return (

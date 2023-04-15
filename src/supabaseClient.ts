@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { Track } from './shared/types';
 
 const supabaseUrl = import.meta.env.VITE_REACT_APP_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_REACT_APP_SUPABASE_ANON_KEY
@@ -31,4 +32,15 @@ export const updateUser = async (password: string) => {
         password: password
     })
     return { data, error }
+}
+
+export const addTrack = async (track: Track) => {
+    await supabase.from('tracks').insert(track);
+}
+
+export const getTracks = async (id: string) => {
+    const { data, error } = await supabase.from('tracks')
+        .select()
+    const tracks = data as Track[];
+    return { tracks, error }
 }
